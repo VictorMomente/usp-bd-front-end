@@ -11,7 +11,27 @@ const DashboardContent: React.FC = () => {
 
   if (user) console.log(`•Info do usuário: ${JSON.stringify(user)}`)
 
-  const handleClick = useCallback(async (): Promise<void> => {
+  const handleRegisterConstructors = useCallback(async (): Promise<void> => {
+    console.log('vai pra tela de cadastrar escuderia')
+    // router.push('/signin')
+  }, [])
+
+  const handleRegisterPilots = useCallback(async (): Promise<void> => {
+    console.log('vai pra tela de cadastrar piloto')
+    // router.push('/signin')
+  }, [])
+
+  const handleOverview = useCallback(async (): Promise<void> => {
+    console.log('vai pra tela de overview')
+    // router.push('/signin')
+  }, [])
+
+  const handleReport = useCallback(async (): Promise<void> => {
+    console.log('vai pra tela de relatorio')
+    // router.push('/signin')
+  }, [])
+
+  const handleSigntOut = useCallback(async (): Promise<void> => {
     setLoadingButton(true)
     await signOut()
     router.push('/signin')
@@ -21,14 +41,23 @@ const DashboardContent: React.FC = () => {
     <Container>
       <Content>
         <h1>Menu</h1>
-        <h4></h4>
-        <Button type="submit" onClick={handleClick}>
+        {user && user.Tipo === 'Administrador' && (
+          <Button type="submit" onClick={handleRegisterConstructors}>
+            Cadastrar Escuderias
+          </Button>
+        )}
+        {user && user.Tipo === 'Administrador' && (
+          <Button type="submit" onClick={handleRegisterPilots}>
+            Cadastrar Pilotos
+          </Button>
+        )}
+        <Button type="submit" onClick={handleOverview}>
           Overview
         </Button>
-        <Button type="submit" onClick={handleClick}>
+        <Button type="submit" onClick={handleReport}>
           Relatórios
         </Button>
-        <Button type="submit" onClick={handleClick} loading={loadingButton}>
+        <Button type="submit" onClick={handleSigntOut} loading={loadingButton}>
           Sair
         </Button>
       </Content>

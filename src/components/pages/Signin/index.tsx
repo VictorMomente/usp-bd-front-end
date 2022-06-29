@@ -11,7 +11,7 @@ import { useAuth } from '@hooks/auth'
 import { useToast } from '@hooks/toast'
 
 type credentials = {
-  email: string
+  login: string
   password: string
 }
 
@@ -28,11 +28,11 @@ const SignIn: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: credentials): Promise<void> => {
-      data.email = data.email.trim()
+      data.login = data.login.trim()
       try {
         formRef.current?.setErrors({})
         const schema = Yup.object().shape({
-          email: Yup.string().required('Email obrigatório').email(),
+          login: Yup.string().required('Login obrigatório'),
           password: Yup.string().required('Senha obrigatória')
         })
         await schema.validate(data, {
@@ -42,28 +42,19 @@ const SignIn: React.FC = () => {
         if (!user) {
           setLoadingButton(true)
 
-          const response = await signIn({
-            email: data.email,
+          await signIn({
+            login: data.login,
             password: data.password
           })
-
-          if (response.challengeName === 'NEW_PASSWORD_REQUIRED') {
-            console.log('• Entro no ChallengerName')
-            // router.push(`${query.orgId}/newPassword`)
-          } else {
-            console.log('• NAOO Entro no ChallengerName')
-            // router.push(`${query.orgId}/insights`)
-          }
         }
-
         router.push('/dashboard')
       } catch (err: any) {
-        if (err.code === 'NotAuthorizedException') {
+        if (err.message === 'NotAuthorizedException') {
           console.log('• Usuário não encontrado')
           addToast({
             type: 'error',
             title: 'Não foi possível realizar o login',
-            description: 'Email ou senha incorretos'
+            description: 'Login ou senha incorretos'
           })
         } else if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err)
@@ -83,13 +74,14 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Content>
-        <h1>Projeto Final (PF) - ICMC/USP</h1>
+        <h1>Projeto Final (PF)</h1>
         <h4>SCC541 - Laboratório de Bases de Dados</h4>
         <h4>Prof. Dr. Caetano Traina Jr.</h4>
         <h4>PAE: Igor Alberte R. Eleutério</h4>
+        <h4>ICMC/USP</h4>
         <Form ref={formRef} onSubmit={handleSubmit}>
           <h2>Faça seu login</h2>
-          <Input name="email" placeholder="Email" autoCapitalize="none"></Input>
+          <Input name="login" placeholder="Login" autoCapitalize="none"></Input>
           <Input name="password" type="password" placeholder="Senha"></Input>
           <Button type="submit" loading={loadingButton}>
             Entrar

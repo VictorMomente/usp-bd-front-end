@@ -5,31 +5,23 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import Auth from '@aws-amplify/auth'
-import { setCookie, parseCookies } from 'nookies'
+import axios from 'axios'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
 
 type AuthState = {
-  token: string
   user: object
 }
 
 type Credentials = {
-  email: string
+  login: string
   password: string
 }
 
-type ForgotCredentials = {
-  codeConfirm: string
-  password: string
-}
 interface AuthContextData {
   user: any
-  token?: string
   challengeName?: string
   signIn(crendtials: Credentials): Promise<any>
   signOut(): Promise<void>
-  forgot(email: string): Promise<void>
-  forgotConfirmNewPassowrd(forgotCredentials: ForgotCredentials): Promise<void>
 }
 
 type AuthProviderProps = {
@@ -43,12 +35,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const getUserAuthenticated = useCallback(async () => {
     let userData
     try {
-      const response = await Auth.currentAuthenticatedUser()
-      if (response) {
-        userData = {
-          user: response.attributes,
-          token: response.signInUserSession.idToken.jwtToken
-        }
+      const login = JSON.parse(parseCookies(null)['db@login'])
+
+      if (login.Status) {
+        userData = { user: login }
         setAuthData(userData)
       }
     } catch (err) {
@@ -63,14 +53,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [getUserAuthenticated])
 
   const signIn = useCallback(
-    async ({ email, password }: Credentials): Promise<any> => {
+    async ({ login, password }: Credentials): Promise<any> => {
       console.log('• [context] - signIn')
-      const response = await Auth.signIn(email, password)
-      if (response?.challengeName === 'NEW_PASSWORD_REQUIRED')
-        return { challengeName: 'NEW_PASSWORD_REQUIRED' }
-      const user = response.attributes
-      const token = response.signInUserSession.idToken.jwtToken
-      setAuthData({ token, user })
+      let response
+      try {
+        response = await axios({
+          method: 'post',
+          url: 'http://localhost:3001/admin/signin',
+          data: {
+            login,
+            password
+          }
+        })
+      } catch (err) {
+        throw new Error('NotAuthorizedException')
+      }
+
+      const user = response.data.user
+      setAuthData({ user })
+      setCookie(null, 'db@login', JSON.stringify(user), {
+        maxAge: 2600,
+        path: '/'
+      })
       return user
     },
     []
@@ -78,39 +82,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signOut = useCallback(async (): Promise<void> => {
     console.log('• [context] - signOut')
-    await Auth.signOut()
+    destroyCookie(null, 'db@login')
   }, [])
-
-  const forgot = useCallback(async (email: string): Promise<void> => {
-    await Auth.forgotPassword(email)
-    setCookie(null, 'usp-bd-front-end@forgot-email', email, {
-      maxAge: 2600,
-      path: '/'
-    })
-  }, [])
-
-  const forgotConfirmNewPassowrd = useCallback(
-    async (forgotCredentials: ForgotCredentials): Promise<void> => {
-      const props = parseCookies(null)
-      const email = props['usp-bd-front-end@forgot-email']
-      await Auth.forgotPasswordSubmit(
-        email,
-        forgotCredentials.codeConfirm,
-        forgotCredentials.password
-      )
-    },
-    []
-  )
 
   return (
     <AuthContext.Provider
       value={{
         user: authData.user,
-        token: authData?.token,
         signIn,
-        signOut,
-        forgot,
-        forgotConfirmNewPassowrd
+        signOut
       }}
     >
       {children}

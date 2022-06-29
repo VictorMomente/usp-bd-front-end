@@ -19,4 +19,12 @@ export const Content = styled.div`
   h1 {
     margin-bottom: 12px;
   }
+
+  h2 {
+    margin-bottom: 12px;
+  }
+
+  button {
+    width: 200px;
+  }
 `

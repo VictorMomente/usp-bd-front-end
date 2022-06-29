@@ -1,9 +1,9 @@
 import { AuthProvider } from '@hooks/auth'
-import { Auth } from 'aws-amplify'
 import router from 'next/router'
 import { useEffect, useState } from 'react'
 import SignIn from '../../components/pages/Signin'
 import GlobalStyle from '../../global'
+import { parseCookies } from 'nookies'
 
 const withAuthentication = (Component: JSX.Element): JSX.Element | null => {
   const [user, setUser] = useState()
@@ -17,11 +17,11 @@ const withAuthentication = (Component: JSX.Element): JSX.Element | null => {
     setLoading(true)
 
     try {
-      const user = await Auth.currentAuthenticatedUser()
+      const login = JSON.parse(parseCookies(null)['db@login'])
+
+      const user = login.Status
       setUser(user)
-    } catch (e) {
-      console.log(e)
-    }
+    } catch (e) {}
 
     setLoading(false)
   }
