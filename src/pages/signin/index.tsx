@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import SignIn from '../../components/pages/Signin'
 import GlobalStyle from '../../global'
 
-const Home: NextPage = () => {
+const SignInPage: NextPage = () => {
   return (
     <>
       <AppProvider>
@@ -14,4 +14,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default SignInPage

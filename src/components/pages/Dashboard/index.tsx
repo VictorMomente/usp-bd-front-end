@@ -2,6 +2,7 @@ import Button from '@components/buttons/Button'
 import { useAuth } from '@hooks/auth'
 import router from 'next/router'
 import { useCallback, useState } from 'react'
+import { Container, Content } from './styles'
 
 const DashboardContent: React.FC = () => {
   const { user, signOut } = useAuth()
@@ -17,13 +18,21 @@ const DashboardContent: React.FC = () => {
   }, [])
 
   return (
-    <>
-      <h1>Dashboard</h1>
-      <h2>Olá, {user?.name}</h2>
-      <Button type="submit" onClick={handleClick} loading={loadingButton}>
-        Sair
-      </Button>
-    </>
+    <Container>
+      <Content>
+        <h1>Menu</h1>
+        <h4></h4>
+        <Button type="submit" onClick={handleClick}>
+          Overview
+        </Button>
+        <Button type="submit" onClick={handleClick}>
+          Relatórios
+        </Button>
+        <Button type="submit" onClick={handleClick} loading={loadingButton}>
+          Sair
+        </Button>
+      </Content>
+    </Container>
   )
 }
 

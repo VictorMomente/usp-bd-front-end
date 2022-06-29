@@ -83,8 +83,10 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Content>
-        <h1>ENSINAMENTÉ</h1>
-        <h4>Só não aprende quem não quer</h4>
+        <h1>Projeto Final (PF) - ICMC/USP</h1>
+        <h4>SCC541 - Laboratório de Bases de Dados</h4>
+        <h4>Prof. Dr. Caetano Traina Jr.</h4>
+        <h4>PAE: Igor Alberte R. Eleutério</h4>
         <Form ref={formRef} onSubmit={handleSubmit}>
           <h2>Faça seu login</h2>
           <Input name="email" placeholder="Email" autoCapitalize="none"></Input>
@@ -92,7 +94,6 @@ const SignIn: React.FC = () => {
           <Button type="submit" loading={loadingButton}>
             Entrar
           </Button>
-          <a onClick={() => router.push('forgot')}>Esqueci minha senha</a>
         </Form>
       </Content>
     </Container>
