@@ -1,13 +1,30 @@
 import Button from '@components/buttons/Button'
 import { useAuth } from '@hooks/auth'
+import { overviewAdmin } from '@services/api/routes/overviewAdmin'
+import { Overview } from '@services/api/routes/typeOverview'
 import router from 'next/router'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Container, Content } from './styles'
 
 const DashboardContent: React.FC = () => {
   const { user, signOut } = useAuth()
 
+  const [overview, setOverview] = useState({} as Overview)
   const [loadingButton, setLoadingButton] = useState(false)
+
+  const fetchOverview = async () => {
+    try {
+      let overview
+      if (user.Tipo === 'Administrador')
+        overview = await overviewAdmin(user.Tipo)
+      else overview = await overviewAdmin(user.Tipo, user.IdOriginal)
+      setOverview(overview)
+    } catch (e) {}
+  }
+
+  useEffect(() => {
+    fetchOverview()
+  }, [user])
 
   if (user) console.log(`•Info do usuário: ${JSON.stringify(user)}`)
 
@@ -18,11 +35,6 @@ const DashboardContent: React.FC = () => {
 
   const handleRegisterPilots = useCallback(async (): Promise<void> => {
     console.log('vai pra tela de cadastrar piloto')
-    // router.push('/signin')
-  }, [])
-
-  const handleOverview = useCallback(async (): Promise<void> => {
-    console.log('vai pra tela de overview')
     // router.push('/signin')
   }, [])
 
@@ -40,7 +52,9 @@ const DashboardContent: React.FC = () => {
   return (
     <Container>
       <Content>
-        <h1>Menu</h1>
+        <p>{overview?.numDrivers}</p>
+        <h1>Overview</h1>
+        <p>• {user && user.Tipo} •</p>
         {user && user.Tipo === 'Administrador' && (
           <Button type="submit" onClick={handleRegisterConstructors}>
             Cadastrar Escuderias
@@ -51,9 +65,6 @@ const DashboardContent: React.FC = () => {
             Cadastrar Pilotos
           </Button>
         )}
-        <Button type="submit" onClick={handleOverview}>
-          Overview
-        </Button>
         <Button type="submit" onClick={handleReport}>
           Relatórios
         </Button>

@@ -16,12 +16,8 @@ export const Content = styled.div`
   width: 100%;
   max-width: 700px;
 
-  h1 {
-    margin-bottom: 12px;
-  }
-
-  h2 {
-    margin-bottom: 12px;
+  p {
+    margin-bottom: 18px;
   }
 
   button {

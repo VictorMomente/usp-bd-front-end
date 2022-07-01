@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         response = await axios({
           method: 'post',
-          url: 'http://localhost:3001/admin/signin',
+          url: 'http://localhost:3001/signin',
           data: {
             login,
             password
