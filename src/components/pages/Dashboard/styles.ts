@@ -16,11 +16,7 @@ export const Content = styled.div`
   width: 100%;
   max-width: 700px;
 
-  p {
-    margin-bottom: 18px;
-  }
-
   button {
-    width: 200px;
+    width: 240px;
   }
 `

@@ -1,4 +1,5 @@
 import Button from '@components/buttons/Button'
+import OverviewContent from '@components/tables/overview'
 import { useAuth } from '@hooks/auth'
 import { overviewAdmin } from '@services/api/routes/overviewAdmin'
 import { Overview } from '@services/api/routes/typeOverview'
@@ -38,6 +39,11 @@ const DashboardContent: React.FC = () => {
     // router.push('/signin')
   }, [])
 
+  const handleConsultPilots = useCallback(async (): Promise<void> => {
+    console.log('vai pra tela de consultar pilotos')
+    // router.push('/signin')
+  }, [])
+
   const handleReport = useCallback(async (): Promise<void> => {
     console.log('vai pra tela de relatorio')
     // router.push('/signin')
@@ -52,9 +58,12 @@ const DashboardContent: React.FC = () => {
   return (
     <Container>
       <Content>
-        <p>{overview?.numDrivers}</p>
         <h1>Overview</h1>
-        <p>• {user && user.Tipo} •</p>
+        <p>
+          • {user?.Tipo}
+          {user?.Tipo !== 'Administrador' && `: ${user?.Name}`} •
+        </p>
+        <OverviewContent>{overview}</OverviewContent>
         {user && user.Tipo === 'Administrador' && (
           <Button type="submit" onClick={handleRegisterConstructors}>
             Cadastrar Escuderias
@@ -63,6 +72,11 @@ const DashboardContent: React.FC = () => {
         {user && user.Tipo === 'Administrador' && (
           <Button type="submit" onClick={handleRegisterPilots}>
             Cadastrar Pilotos
+          </Button>
+        )}
+        {user && user.Tipo === 'Escuderia' && (
+          <Button type="submit" onClick={handleConsultPilots}>
+            Consultar Pilotos
           </Button>
         )}
         <Button type="submit" onClick={handleReport}>

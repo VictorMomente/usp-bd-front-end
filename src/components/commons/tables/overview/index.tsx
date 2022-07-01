@@ -1,29 +1,20 @@
-import React, { InputHTMLAttributes, useEffect, useRef } from 'react'
+import { OverviewMap } from '@services/api/routes/typeOverview'
+import React from 'react'
 import { Container } from './styles'
-import { useField } from '@unform/core'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string
-}
-
-const Input: React.FC<InputProps> = ({ name, ...rest }) => {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const { fieldName, defaultValue, error, registerField } = useField(name)
-
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: inputRef.current,
-      path: 'value'
-    })
-  }, [fieldName, registerField])
-
+const OverviewContent: React.FC<any> = ({ children }): any => {
   return (
-    <Container isErrored={!!error}>
-      <input defaultValue={defaultValue} ref={inputRef} {...rest}></input>
-      {error}
+    <Container>
+      {Object.keys(children).map(current => {
+        const test = OverviewMap[current]
+        return (
+          <p key={current}>
+            {test}: {children[current]}
+          </p>
+        )
+      })}
     </Container>
   )
 }
 
-export default Input
+export default OverviewContent

@@ -13,12 +13,12 @@ export type Overview = {
 }
 
 export const OverviewMap = {
-  numDrivers: 'Pilotos',
-  numConstructors: 'Escuderias',
-  numRaces: 'Corridas',
-  numSeasons: 'Temporadas',
+  numDrivers: 'Total de pilotos',
+  numConstructors: 'Total de escuderias',
+  numRaces: 'Total de corridas',
+  numSeasons: 'Total de temporadas',
   numConstructorsWins: 'Vitórias',
-  numDriversDiff: 'Pilotos',
+  numDriversDiff: 'Quantidade de pilotos',
   constructorsFirstYear: 'Primeiro ano',
   constructorsLastYear: 'Último ano',
   numDriverWins: 'Vitórias',

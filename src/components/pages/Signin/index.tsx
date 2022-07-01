@@ -74,11 +74,8 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Content>
-        <h1>Projeto Final (PF)</h1>
-        <h4>SCC541 - Laboratório de Bases de Dados</h4>
-        <h4>Prof. Dr. Caetano Traina Jr.</h4>
-        <h4>PAE: Igor Alberte R. Eleutério</h4>
-        <h4>ICMC/USP</h4>
+        <h1>Projeto Final</h1>
+        <h4>Laboratório de Bases de Dados</h4>
         <Form ref={formRef} onSubmit={handleSubmit}>
           <h2>Faça seu login</h2>
           <Input name="login" placeholder="Login" autoCapitalize="none"></Input>
