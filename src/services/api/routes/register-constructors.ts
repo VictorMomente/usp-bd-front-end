@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { Overview } from './typeOverview'
 
-export const overviewAdmin = async (
-  userType: string,
-  userId?: number
+export const registerConstructors = async (
+  name: string,
+  nationality: string,
+  url: string,
+  userType: string
 ): Promise<Overview> => {
   let response
-  let customUrl = `http://localhost:3001/overview?userType=${userType}`
-  if (userId) customUrl += `&userId=${userId}`
+  const customUrl = `http://localhost:3001/register?userType=${userType}`
   console.log(customUrl)
   try {
     response = await axios({

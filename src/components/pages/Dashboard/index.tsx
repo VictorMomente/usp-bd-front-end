@@ -1,7 +1,7 @@
 import Button from '@components/buttons/Button'
 import OverviewContent from '@components/tables/overview'
 import { useAuth } from '@hooks/auth'
-import { overviewAdmin } from '@services/api/routes/overviewAdmin'
+import { getOverview } from '@services/api/routes/get-overview'
 import { Overview } from '@services/api/routes/typeOverview'
 import router from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -16,9 +16,8 @@ const DashboardContent: React.FC = () => {
   const fetchOverview = async () => {
     try {
       let overview
-      if (user.Tipo === 'Administrador')
-        overview = await overviewAdmin(user.Tipo)
-      else overview = await overviewAdmin(user.Tipo, user.IdOriginal)
+      if (user.Tipo === 'Administrador') overview = await getOverview(user.Tipo)
+      else overview = await getOverview(user.Tipo, user.IdOriginal)
       setOverview(overview)
     } catch (e) {}
   }
@@ -30,8 +29,7 @@ const DashboardContent: React.FC = () => {
   if (user) console.log(`•Info do usuário: ${JSON.stringify(user)}`)
 
   const handleRegisterConstructors = useCallback(async (): Promise<void> => {
-    console.log('vai pra tela de cadastrar escuderia')
-    // router.push('/signin')
+    router.push('/regconstructors')
   }, [])
 
   const handleRegisterPilots = useCallback(async (): Promise<void> => {

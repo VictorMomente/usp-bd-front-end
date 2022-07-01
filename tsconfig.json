@@ -27,6 +27,6 @@
       "@global/*": ["./src/global/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/services/api/routes/get-overview.ts"],
   "exclude": ["node_modules"]
 }
