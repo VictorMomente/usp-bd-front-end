@@ -32,14 +32,12 @@ const DashboardContent: React.FC = () => {
     router.push('/regconstructors')
   }, [])
 
-  const handleRegisterPilots = useCallback(async (): Promise<void> => {
-    console.log('vai pra tela de cadastrar piloto')
-    // router.push('/signin')
+  const handleRegisterDrivers = useCallback(async (): Promise<void> => {
+    router.push('/regdrivers')
   }, [])
 
-  const handleConsultPilots = useCallback(async (): Promise<void> => {
-    console.log('vai pra tela de consultar pilotos')
-    // router.push('/signin')
+  const handleConsultDrivers = useCallback(async (): Promise<void> => {
+    router.push('/consdrivers')
   }, [])
 
   const handleReport = useCallback(async (): Promise<void> => {
@@ -68,12 +66,12 @@ const DashboardContent: React.FC = () => {
           </Button>
         )}
         {user && user.Tipo === 'Administrador' && (
-          <Button type="submit" onClick={handleRegisterPilots}>
+          <Button type="submit" onClick={handleRegisterDrivers}>
             Cadastrar Pilotos
           </Button>
         )}
         {user && user.Tipo === 'Escuderia' && (
-          <Button type="submit" onClick={handleConsultPilots}>
+          <Button type="submit" onClick={handleConsultDrivers}>
             Consultar Pilotos
           </Button>
         )}

@@ -16,7 +16,7 @@ export const registerConstructors = async (
   }
   try {
     response = await axios({
-      method: 'post',
+      method: 'get',
       url: customUrl,
       data
     })

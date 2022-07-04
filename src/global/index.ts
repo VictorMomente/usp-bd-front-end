@@ -18,10 +18,13 @@ export default createGlobalStyle`
  button {
  font-family: 'Roboto Slab', sans-serif;
  }
+ select {
+	font-family: 'Roboto Slab', sans-serif;
+ }
  a {
  font-family: 'Roboto Slab', sans-serif;
  }
- body, input , button {
+ body, input , button, select {
 		font-family: 'Roboto Slab', serif;
 		font-size: 16px;
 	}

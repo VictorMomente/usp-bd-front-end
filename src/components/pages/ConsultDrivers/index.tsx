@@ -9,7 +9,7 @@ import Button from '@components/buttons/Button'
 import Input from '@components/inputs/Input'
 import { useAuth } from '@hooks/auth'
 import { useToast } from '@hooks/toast'
-import { registerConstructors } from '@services/api/routes/register-constructors'
+import { consultConstructors } from '@services/api/routes/consult-constructors'
 
 type Register = {
   name: string
@@ -17,7 +17,7 @@ type Register = {
   url: string
 }
 
-const RegisterConstructors: React.FC = () => {
+const ConsultDrivers: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
 
   const { user } = useAuth()
@@ -30,7 +30,12 @@ const RegisterConstructors: React.FC = () => {
 
   const handleRegisterConstructors = useCallback(
     async (data: Register): Promise<void> => {
-      await registerConstructors(data.name, data.nationality, data.url)
+      await consultConstructors(
+        data.name,
+        data.nationality,
+        data.url,
+        user.Tipo
+      )
     },
     []
   )
@@ -93,4 +98,4 @@ const RegisterConstructors: React.FC = () => {
   )
 }
 
-export default RegisterConstructors
+export default ConsultDrivers
