@@ -9,7 +9,7 @@ import Button from '@components/buttons/Button'
 import Input from '@components/inputs/Input'
 import { useAuth } from '@hooks/auth'
 import { useToast } from '@hooks/toast'
-import { registerConstructors } from '@services/api/routes/register-constructors'
+import { registerDrivers } from '@services/api/routes/register-drivers'
 
 type Register = {
   number: number
@@ -27,21 +27,23 @@ const RegisterDrivers: React.FC = () => {
 
   const { addToast } = useToast()
 
-  if (user) console.log(`•Info do usuário: ${JSON.stringify(user)}`)
+  if (user) console.log(`• Info do usuário: ${JSON.stringify(user)}`)
 
   const [loadingButton, setLoadingButton] = useState(false)
 
-  // const handleRegisterConstructors = useCallback(
-  //   async (data: Register): Promise<void> => {
-  //     await registerConstructors(
-  //       data.name,
-  //       data.nationality,
-  //       data.url,
-  //       user.Tipo
-  //     )
-  //   },
-  //   []
-  // )
+  const handleRegisterDrivers = useCallback(
+    async (data: Register): Promise<void> => {
+      await registerDrivers(
+        data.number,
+        data.code,
+        data.forename,
+        data.surname,
+        data.date,
+        data.nationality
+      )
+    },
+    []
+  )
 
   const handleSubmit = useCallback(
     async (data: Register): Promise<void> => {
@@ -65,7 +67,7 @@ const RegisterDrivers: React.FC = () => {
           abortEarly: false
         })
 
-        // handleRegisterConstructors(data)
+        handleRegisterDrivers(data)
         alert('Piloto cadastrado com sucesso')
         router.push('/dashboard')
       } catch (err: any) {
