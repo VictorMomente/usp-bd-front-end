@@ -12,7 +12,6 @@ import { getDriversByConstructors } from '@services/api/routes/get-drivers-by-co
 
 let IdOriginal = 0
 let piloto = ''
-let drivers: any[] = []
 
 const ConsultDrivers: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
@@ -21,10 +20,14 @@ const ConsultDrivers: React.FC = () => {
 
   const { addToast } = useToast()
 
+  const [loadingButton, setLoadingButton] = useState(false)
+  const [driver, setDriver] = useState(false)
+  const [driversByConstructor, setDriversByConstructor] = useState<any[]>([])
+
   const getDrivers = async () => {
     try {
-      drivers = await getDriversByConstructors(user.IdOriginal)
-      console.log(drivers)
+      setDriversByConstructor(await getDriversByConstructors(user.IdOriginal))
+      console.log(driversByConstructor)
     } catch (e) {}
   }
 
@@ -36,9 +39,6 @@ const ConsultDrivers: React.FC = () => {
     console.log(`•Info do usuário: ${JSON.stringify(user)}`)
     IdOriginal = user.IdOriginal
   }
-
-  const [loadingButton, setLoadingButton] = useState(false)
-  const [driver, setDriver] = useState(false)
 
   const handleConsultDrivers = useCallback(async (): Promise<void> => {
     try {
@@ -91,11 +91,12 @@ const ConsultDrivers: React.FC = () => {
             <option value="pilotos" disabled selected>
               Selecione um piloto
             </option>
-            {drivers.map(driver => (
-              <option key={driver} value={driver}>
-                {driver}
-              </option>
-            ))}
+            {driversByConstructor &&
+              driversByConstructor.map((driver: any) => (
+                <option key={driver} value={driver}>
+                  {driver}
+                </option>
+              ))}
           </select>
           <Button type="submit" loading={loadingButton}>
             Consultar
