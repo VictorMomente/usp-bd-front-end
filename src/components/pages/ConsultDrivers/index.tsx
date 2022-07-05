@@ -1,21 +1,18 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
-import * as Yup from 'yup'
 import { Container, Content } from './styles'
 import router from 'next/router'
-import getValidationErrors from '@utils/functions/get-validations-errors'
 import Button from '@components/buttons/Button'
-import Input from '@components/inputs/Input'
 import { useAuth } from '@hooks/auth'
 import { useToast } from '@hooks/toast'
-import { consultConstructors } from '@services/api/routes/consult-constructors'
+import { consultDrivers } from '@services/api/routes/consult-drivers'
+import ConsultDriverContent from '@components/tables/consult-driver'
+import { getDriversByConstructors } from '@services/api/routes/get-drivers-by-constructors'
 
-type Register = {
-  name: string
-  nationality: string
-  url: string
-}
+let IdOriginal = 0
+let piloto = ''
+let drivers: any[] = []
 
 const ConsultDrivers: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
@@ -24,72 +21,84 @@ const ConsultDrivers: React.FC = () => {
 
   const { addToast } = useToast()
 
-  if (user) console.log(`•Info do usuário: ${JSON.stringify(user)}`)
+  const getDrivers = async () => {
+    try {
+      drivers = await getDriversByConstructors(user.IdOriginal)
+      console.log(drivers)
+    } catch (e) {}
+  }
+
+  useEffect(() => {
+    getDrivers()
+  }, [user])
+
+  if (user) {
+    console.log(`•Info do usuário: ${JSON.stringify(user)}`)
+    IdOriginal = user.IdOriginal
+  }
 
   const [loadingButton, setLoadingButton] = useState(false)
+  const [driver, setDriver] = useState(false)
 
-  const handleRegisterConstructors = useCallback(
-    async (data: Register): Promise<void> => {
-      await consultConstructors(
-        data.name,
-        data.nationality,
-        data.url,
-        user.Tipo
-      )
-    },
-    []
-  )
-
-  const handleSubmit = useCallback(
-    async (data: Register): Promise<void> => {
-      data.name = data.name.trim()
-      data.nationality = data.name.trim()
-      data.url = data.url.trim()
-      try {
-        formRef.current?.setErrors({})
-        const schema = Yup.object().shape({
-          name: Yup.string().required('Nome obrigatório'),
-          nationality: Yup.string().required('Nacionalidade obrigatória'),
-          url: Yup.string().required('URL obrigatória')
+  const handleConsultDrivers = useCallback(async (): Promise<void> => {
+    try {
+      const results = await consultDrivers(piloto, IdOriginal)
+      if (results === undefined) {
+        addToast({
+          type: 'error',
+          title: 'Piloto não encontrado'
         })
-        await schema.validate(data, {
-          abortEarly: false
-        })
+        setDriver(false)
+      } else setDriver(results)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [user])
 
-        handleRegisterConstructors(data)
-        alert('Escuderia cadastrada com sucesso')
-        router.push('/dashboard')
-      } catch (err: any) {
-        if (err instanceof Yup.ValidationError) {
-          const errors = getValidationErrors(err)
-          formRef.current?.setErrors(errors)
-          addToast({
-            type: 'info',
-            title: 'Não foi possível realizar o login',
-            description: 'Preencha os campos corretamente'
-          })
-        }
-        setLoadingButton(false)
+  const handleSubmit = useCallback(async (): Promise<void> => {
+    try {
+      if (piloto === '') {
+        addToast({
+          type: 'info',
+          title: 'Selecione um piloto'
+        })
+      } else {
+        console.log(user)
+        handleConsultDrivers()
       }
-    },
-    [addToast]
-  )
+    } catch (err: any) {
+      setLoadingButton(false)
+    }
+  }, [addToast])
+
+  const handleSelectedChange = async (event: any) => {
+    piloto = event?.target.value
+  }
 
   return (
     <Container>
       <Content>
-        <h1>Cadastrar Escuderia</h1>
-        <h4>Preencha os dados da escuderia</h4>
+        <h1>Consultar Piloto</h1>
+        <h4>Insira o nome do piloto</h4>
+        {!!driver && <ConsultDriverContent>{driver}</ConsultDriverContent>}
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input name="name" placeholder="Nome" autoCapitalize="none"></Input>
-          <Input
+          <select
+            defaultValue="pilotos"
             name="nationality"
-            placeholder="Nacionalidade"
-            autoCapitalize="none"
-          ></Input>
-          <Input name="url" placeholder="URL" autoCapitalize="none"></Input>
+            id="nationality"
+            onChange={handleSelectedChange}
+          >
+            <option value="pilotos" disabled selected>
+              Selecione um piloto
+            </option>
+            {drivers.map(driver => (
+              <option key={driver} value={driver}>
+                {driver}
+              </option>
+            ))}
+          </select>
           <Button type="submit" loading={loadingButton}>
-            Cadastrar
+            Consultar
           </Button>
           <a onClick={() => router.push('dashboard')}>Voltar</a>
         </Form>

@@ -25,3 +25,9 @@ export const OverviewMap = {
   driverFirstYear: 'Primeiro ano',
   driverLastYear: 'Último ano'
 }
+
+export const DriverMap = {
+  name: 'Nome',
+  date: 'Nascimento',
+  nationality: 'Nacionalidade'
+}

@@ -40,7 +40,6 @@ export const Content = styled.div`
     }
 
     select {
-      margin-top: 10px;
       margin-bottom: 10px;
       border-radius: 5px;
       border: 2px solid;
