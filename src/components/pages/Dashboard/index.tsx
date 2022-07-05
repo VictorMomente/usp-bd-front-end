@@ -41,8 +41,7 @@ const DashboardContent: React.FC = () => {
   }, [])
 
   const handleReport = useCallback(async (): Promise<void> => {
-    console.log('vai pra tela de relatorio')
-    // router.push('/signin')
+    router.push('/reports')
   }, [])
 
   const handleSigntOut = useCallback(async (): Promise<void> => {
