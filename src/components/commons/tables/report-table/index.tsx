@@ -7,16 +7,20 @@ const ReportContent: React.FC<any> = (content): any => {
   const columnTemplate = data[0]
   const columns = [] as Array<any>
 
-  Object.keys(columnTemplate).forEach((current: any) => {
-    const capitalized = current.charAt(0).toUpperCase() + current.slice(1)
-    const column: any = { name: capitalized }
-    column.selector = (row: any) => row[current]
-    columns.push(column)
-  })
+  if (data.length > 0) {
+    Object.keys(columnTemplate).forEach((current: any) => {
+      const capitalized = current.charAt(0).toUpperCase() + current.slice(1)
+      const column: any = { name: capitalized }
+      column.selector = (row: any) => row[current]
+      columns.push(column)
+    })
+  }
 
   return (
     <Container>
-      <DataTable columns={columns} data={data} />
+      {(data.length > 0 && columns && data && (
+        <DataTable columns={columns} data={data} />
+      )) || <p>Não há dados registrados</p>}
     </Container>
   )
 }
