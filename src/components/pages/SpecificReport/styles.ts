@@ -6,13 +6,15 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
   a {
     margin-top: 12px;
     margin-bottom: 12px;
     color: #1c1c1c;
     text-decoration: underline;
     cursor: pointer;
+  }
+  div {
+    margin-top: 6px;
   }
 `
 

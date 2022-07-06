@@ -15,7 +15,7 @@ const ReportsContent: React.FC = () => {
       query: {
         report: 'reportOne',
         title: 'Relatório Administrador',
-        subtitle: 'Contagem e Status'
+        subtitle: 'Contagem das quantidades de status totais'
       }
     })
   }, [])
@@ -26,7 +26,7 @@ const ReportsContent: React.FC = () => {
       query: {
         report: 'reportTwo',
         title: 'Relatório Administrador',
-        subtitle: 'Cidades'
+        subtitle: 'Aeroportos até 100km da cidade'
       }
     })
   }, [])
@@ -37,7 +37,7 @@ const ReportsContent: React.FC = () => {
       query: {
         report: 'reportThree',
         title: 'Relatório Escuderia',
-        subtitle: 'Pilotos'
+        subtitle: 'Vitórias dos pilotos da escuderia'
       }
     })
   }, [])
@@ -48,7 +48,7 @@ const ReportsContent: React.FC = () => {
       query: {
         report: 'reportFour',
         title: 'Relatório Administrador',
-        subtitle: 'Contagem e Status'
+        subtitle: 'Contagem das quantidades de status da escuderia'
       }
     })
   }, [])
@@ -59,7 +59,7 @@ const ReportsContent: React.FC = () => {
       query: {
         report: 'reportFive',
         title: 'Relatório Piloto',
-        subtitle: 'Vitórias'
+        subtitle: 'Vitórias por ano por corrida e totais'
       }
     })
   }, [])
@@ -70,7 +70,7 @@ const ReportsContent: React.FC = () => {
       query: {
         report: 'reportSix',
         title: 'Relatório Piloto',
-        subtitle: 'Contagem e Status'
+        subtitle: 'Contagem das quantidades de status do piloto'
       }
     })
   }, [])
@@ -82,32 +82,32 @@ const ReportsContent: React.FC = () => {
         <h4>Escolha um relatório</h4>
         {user && user.Tipo === 'Administrador' && (
           <Button type="submit" onClick={handleOne}>
-            1. Contagem e Status
+            1. Status e Contagem
           </Button>
         )}
         {user && user.Tipo === 'Administrador' && (
           <Button type="submit" onClick={handleTwo}>
-            2. Cidades
+            2. Cidades e Aeroportos
           </Button>
         )}
         {user && user.Tipo === 'Escuderia' && (
           <Button type="submit" onClick={handleThree}>
-            3. Pilotos
+            3. Pilotos da escuderia
           </Button>
         )}
         {user && user.Tipo === 'Escuderia' && (
           <Button type="submit" onClick={handleFour}>
-            4. Contagem e Status
+            4. Status e Contagem
           </Button>
         )}
         {user && user.Tipo === 'Piloto' && (
           <Button type="submit" onClick={handleFive}>
-            5. Vitórias
+            5. Minhas vitórias
           </Button>
         )}
         {user && user.Tipo === 'Piloto' && (
           <Button type="submit" onClick={handleSix}>
-            6. Contagem e Status
+            6. Status e Contagem
           </Button>
         )}
 
