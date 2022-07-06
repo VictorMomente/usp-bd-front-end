@@ -47,7 +47,7 @@ const ReportsContent: React.FC = () => {
       pathname: 'specificreport',
       query: {
         report: 'reportFour',
-        title: 'Relatório Administrador',
+        title: 'Relatório Escuderia',
         subtitle: 'Contagem das quantidades de status da escuderia'
       }
     })
