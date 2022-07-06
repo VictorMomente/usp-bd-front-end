@@ -12,7 +12,6 @@ import { useToast } from '@hooks/toast'
 
 let city = ''
 let userType = ''
-let reportType = ''
 let userId = 0
 
 const SpecificReportContent: React.FC = () => {
@@ -29,14 +28,17 @@ const SpecificReportContent: React.FC = () => {
   if (user) {
     console.log(`•Info do usuário: ${JSON.stringify(user)}`)
     userType = user.Tipo
-    reportType = reportHeader.report
     userId = user.IdOriginal
   }
 
   const fetchReport = async () => {
     try {
       if (reportHeader.report !== 'reportTwo') {
-        const response = await getSpecificReport(userType, reportType, userId)
+        const response = await getSpecificReport(
+          userType,
+          reportHeader.report,
+          userId
+        )
         setReport(response)
       }
     } catch (e) {}
@@ -56,7 +58,12 @@ const SpecificReportContent: React.FC = () => {
 
   const handleConsultCity = useCallback(async (): Promise<void> => {
     setLoadingButton(true)
-    const response = await getSpecificReport(userType, reportType, userId, city)
+    const response = await getSpecificReport(
+      userType,
+      reportHeader.report,
+      userId,
+      city
+    )
     setReport(response)
     setLoadingButton(false)
   }, [])
@@ -86,7 +93,7 @@ const SpecificReportContent: React.FC = () => {
       <Container>
         <h1>{reportHeader.title}</h1>
         <p>{reportHeader.subtitle}</p>
-        {reportType === 'reportTwo' && (
+        {reportHeader.report === 'reportTwo' && (
           <div>
             <Form ref={formRef} onSubmit={handleSubmit} onChange={handleChange}>
               <Input
