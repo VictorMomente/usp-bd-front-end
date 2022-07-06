@@ -10,27 +10,69 @@ const ReportsContent: React.FC = () => {
   if (user) console.log(`•Info do usuário: ${JSON.stringify(user)}`)
 
   const handleOne = useCallback(async (): Promise<void> => {
-    // router.push('/regconstructors')
+    router.push({
+      pathname: 'specificreport',
+      query: {
+        report: 'reportOne',
+        title: 'Relatório Administrador',
+        subtitle: 'Contagem e Status'
+      }
+    })
   }, [])
 
   const handleTwo = useCallback(async (): Promise<void> => {
-    // router.push('/regdrivers')
+    router.push({
+      pathname: 'specificreport',
+      query: {
+        report: 'reportTwo',
+        title: 'Relatório Administrador',
+        subtitle: 'Cidades'
+      }
+    })
   }, [])
 
   const handleThree = useCallback(async (): Promise<void> => {
-    // router.push('/consdrivers')
+    router.push({
+      pathname: 'specificreport',
+      query: {
+        report: 'reportThree',
+        title: 'Relatório Escuderia',
+        subtitle: 'Pilotos'
+      }
+    })
   }, [])
 
   const handleFour = useCallback(async (): Promise<void> => {
-    // router.push('/reports')
+    router.push({
+      pathname: 'specificreport',
+      query: {
+        report: 'reportFour',
+        title: 'Relatório Administrador',
+        subtitle: 'Contagem e Status'
+      }
+    })
   }, [])
 
   const handleFive = useCallback(async (): Promise<void> => {
-    // router.push('/reports')
+    router.push({
+      pathname: 'specificreport',
+      query: {
+        report: 'reportFive',
+        title: 'Relatório Piloto',
+        subtitle: 'Vitórias'
+      }
+    })
   }, [])
 
   const handleSix = useCallback(async (): Promise<void> => {
-    // router.push('/reports')
+    router.push({
+      pathname: 'specificreport',
+      query: {
+        report: 'reportSix',
+        title: 'Relatório Piloto',
+        subtitle: 'Contagem e Status'
+      }
+    })
   }, [])
 
   return (
@@ -68,6 +110,7 @@ const ReportsContent: React.FC = () => {
             6. Contagem e Status
           </Button>
         )}
+
         <a onClick={() => router.push('dashboard')}>Voltar</a>
       </Content>
     </Container>
